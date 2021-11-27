@@ -84,6 +84,7 @@ class _PostState extends State<Post> {
   int likeCount;
   bool? isLiked;
   bool showHeart = false;
+  bool isPostOwner = true;
 
   _PostState({
     this.loginUser,
@@ -104,6 +105,9 @@ class _PostState extends State<Post> {
 
   getCurrentUserDetails() async {
     currentLoggedUser = User.fromDocument(loginUser);
+    setState(() {
+      isPostOwner = ownerId == currentLoggedUser.id;
+    });
   }
 
   @override
@@ -185,6 +189,84 @@ class _PostState extends State<Post> {
     }
   }
 
+  deletePost() async {
+    posts.doc(ownerId).collection('userPosts').doc(postId).get().then((doc) {
+      if (doc.exists) {
+        doc.reference.delete();
+      }
+    });
+
+    postsRef.child('post_$postId.jpg').delete();
+
+    QuerySnapshot activityFeedSnapshot = await feed
+        .doc(ownerId)
+        .collection('feedItems')
+        .where("postId", isEqualTo: postId)
+        .get();
+    activityFeedSnapshot.docs.forEach((doc) {
+      if (doc.exists) {
+        doc.reference.delete();
+      }
+    });
+
+    QuerySnapshot commentSnapshot =
+        await comments.doc(postId).collection('comments').get();
+    commentSnapshot.docs.forEach((doc) {
+      if (doc.exists) {
+        doc.reference.delete();
+      }
+    });
+  }
+
+  void handleDeletePost(BuildContext parentContext) async {
+    // showModalBottomSheet(
+    //     context: context,
+    //     builder: (BuildContext bc) {
+    //       return SafeArea(
+    //         child: Container(
+    //           child: new Wrap(
+    //             children: <Widget>[
+    //               new ListTile(
+    //                   leading: new Icon(Icons.photo_library),
+    //                   title: new Text('Camera'),
+    //                   onTap: () {
+    //                   }),
+    //               new ListTile(
+    //                 leading: new Icon(Icons.photo_camera),
+    //                 title: new Text('Photo Gallery'),
+    //                 onTap: () {
+    //                 },
+    //               ),
+    //             ],
+    //           ),
+    //         ),
+    //       );
+    //     });
+
+    return showDialog(
+        context: parentContext,
+        builder: (context) {
+          return SimpleDialog(
+            title: Text("Remove This Post?"),
+            children: [
+              SimpleDialogOption(
+                onPressed: () => {Navigator.pop(context), deletePost()},
+                child: Text(
+                  "Delete",
+                  style: TextStyle(
+                    color: Colors.red,
+                  ),
+                ),
+              ),
+              SimpleDialogOption(
+                onPressed: () => Navigator.pop(context),
+                child: Text("Cancel"),
+              ),
+            ],
+          );
+        });
+  }
+
   buildPostHeader() {
     return FutureBuilder<DocumentSnapshot>(
       future: users.doc(ownerId).get(),
@@ -210,10 +292,12 @@ class _PostState extends State<Post> {
             ),
           ),
           subtitle: Text(location),
-          trailing: IconButton(
-            onPressed: () => print("Deleting post"),
-            icon: Icon(Icons.more_vert),
-          ),
+          trailing: isPostOwner
+              ? IconButton(
+                  onPressed: () => handleDeletePost(context),
+                  icon: Icon(Icons.more_vert),
+                )
+              : Text(""),
         );
       },
     );

@@ -34,6 +34,8 @@ class _ActivityFeedState extends State<ActivityFeed> {
   }
 
   getActivityFeed() async {
+    print("from getActivityFeed");
+    print(logUser.id);
     QuerySnapshot snapshot = await feed
         .doc(logUser.id)
         .collection('feedItems')
@@ -42,8 +44,12 @@ class _ActivityFeedState extends State<ActivityFeed> {
         .get();
     List<ActivityFeedItem> feedItems = [];
     snapshot.docs.forEach((doc) {
+      print("Data of feedItems");
+      print(doc.data());
       feedItems.add(ActivityFeedItem.fromDocument(doc, loginUser));
     });
+    print("list of feed iterms");
+    print(feedItems);
     return feedItems;
   }
 
@@ -56,12 +62,14 @@ class _ActivityFeedState extends State<ActivityFeed> {
         child: FutureBuilder<dynamic>(
             future: getActivityFeed(),
             builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return circularProgress();
+              if (snapshot.hasData) {
+                print("Snapshot has data");
+                return ListView(
+                  children: snapshot.data,
+                );
               }
-              return ListView(
-                children: snapshot.data!,
-              );
+              print("No data in snapshot");
+              return circularProgress();
             }),
       ),
     );
@@ -95,7 +103,8 @@ class ActivityFeedItem extends StatelessWidget {
   });
 
   factory ActivityFeedItem.fromDocument(
-      DocumentSnapshot? doc, DocumentSnapshot? loginUser) {
+      QueryDocumentSnapshot? doc, DocumentSnapshot? loginUser) {
+    print("from Activity Feed Item class");
     print(doc!.data());
     return ActivityFeedItem(
       loginUser: loginUser,
@@ -110,7 +119,9 @@ class ActivityFeedItem extends StatelessWidget {
     );
   }
 
-  configureMediaPreview(context) {
+  configureMediaPreview(BuildContext context) {
+    print("configureMediaPreview");
+    print(type);
     if (type == 'like' || type == 'comment') {
       mediaPreview = GestureDetector(
         onTap: () => Navigator.push(
@@ -166,6 +177,7 @@ class ActivityFeedItem extends StatelessWidget {
                     builder: (context) => Profile(
                           user: loginUser,
                           currentinUser: loginUser,
+                          userId: userId,
                         ))),
             child: RichText(
               overflow: TextOverflow.ellipsis,

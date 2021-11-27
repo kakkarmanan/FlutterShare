@@ -23,6 +23,8 @@ final CollectionReference followers =
     FirebaseFirestore.instance.collection('followers');
 final CollectionReference following =
     FirebaseFirestore.instance.collection('following');
+final CollectionReference timeline =
+    FirebaseFirestore.instance.collection('timeline');
 
 final DateTime timestamp = DateTime.now();
 User currentUser = User();
@@ -129,10 +131,8 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: PageView(
         children: [
-          // Timeline(),
-          ElevatedButton(
-            onPressed: logout,
-            child: Text('Logout'),
+          Timeline(
+            logInUser: document,
           ),
           ActivityFeed(
             loginUser: document,
