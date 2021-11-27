@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "983460397633",
+    "project_id": "fluttershare-abc26",
+    "storage_bucket": "fluttershare-abc26.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:983460397633:android:7eea6014d669eae2063cc0",
+        "android_client_info": {
+          "package_name": "com.mk.flutter_share"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "983460397633-bk5ogrdaglkd7t3m3fq05dfm55tttq6q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDhmcYR2WKk22iGvYrtFPCp74pYyAq12gU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "983460397633-bk5ogrdaglkd7t3m3fq05dfm55tttq6q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "983460397633-gih110e92h6ejuk8rn8etvnocur8fuk3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "cam.example.flutterexample"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,51 @@
+name: flutter_share
+description: A social app
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.15.0-116.0.dev <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^1.0.2
+  firebase_core: ^1.10.0
+  firebase_auth: ^3.2.0
+  cloud_firestore: ^3.1.0
+  firebase_messaging: ^11.1.0
+  firebase_storage: ^10.1.0
+  google_sign_in: ^5.2.1
+  flutter_svg: ^0.23.0+1
+  cached_network_image: ^3.1.0+1
+  image_picker: ^0.8.4+4
+  image: ^3.0.8
+  flutter_image_compress: ^1.0.0-nullsafety
+  uuid: ^3.0.5
+  geolocator: ^7.7.1
+  geocoding: ^2.0.1
+  animator: ^3.1.0
+  timeago: ^3.1.0
+  
+
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+  flutter_lints: ^1.0.0
+flutter:
+  uses-material-design: true
+  fonts:
+    - family: Signatra
+      fonts:
+        - asset: assets\fonts\Signatra.ttf
+  assets:
+    - assets/images/google_signin_button.png
+    - assets/images/upload.svg
+    - assets/images/search.svg
+    - assets/images/activity_feed.svg
+    - assets/images/no_content.svg
