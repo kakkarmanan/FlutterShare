@@ -119,8 +119,6 @@ class UserResult extends StatelessWidget {
   UserResult(this.userSnap, this.currentUser, this.user);
   @override
   Widget build(BuildContext context) {
-    print("From search");
-    print(user.id);
     String userId;
     return Container(
       child: Column(
@@ -130,7 +128,6 @@ class UserResult extends StatelessWidget {
             child: GestureDetector(
               onTap: () => {
                 userId = user.id,
-                print(userId),
                 Navigator.push(
                     context,
                     MaterialPageRoute(

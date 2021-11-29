@@ -254,8 +254,6 @@ class _ProfileState extends State<Profile> {
   }
 
   buildProfileButton() {
-    print("From profile Button");
-    print(widget.userId);
     User currentLoggedinUser = User.fromDocument(widget.currentinUser);
     //User lookUser = User.fromDocument(widget.user);
     bool isProfileOWner = widget.userId == currentLoggedinUser.id;
@@ -269,15 +267,12 @@ class _ProfileState extends State<Profile> {
   }
 
   buildProfileHeader() {
-    print("From profile header");
-    print(widget.userId);
     return FutureBuilder<DocumentSnapshot?>(
       future: users.doc(widget.userId).get(),
       builder: (context, snapshot) {
         if (!snapshot.hasData) {
           return circularProgress();
         }
-        print("From builder in Profile Header");
         User profileUser = User.fromDocument(snapshot.data);
         return Padding(
           padding: EdgeInsets.all(16.0),
@@ -317,10 +312,10 @@ class _ProfileState extends State<Profile> {
               ),
               Container(
                 alignment: Alignment.centerLeft,
-                padding: EdgeInsets.only(top: 16.0),
+                padding: const EdgeInsets.only(top: 16.0),
                 child: Text(
                   profileUser.username,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16.0,
                   ),
@@ -328,17 +323,17 @@ class _ProfileState extends State<Profile> {
               ),
               Container(
                 alignment: Alignment.centerLeft,
-                padding: EdgeInsets.only(top: 4.0),
+                padding: const EdgeInsets.only(top: 4.0),
                 child: Text(
                   profileUser.displayName,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
               Container(
                 alignment: Alignment.centerLeft,
-                padding: EdgeInsets.only(top: 2.0),
+                padding: const EdgeInsets.only(top: 2.0),
                 child: Text(
                   profileUser.bio,
                 ),
@@ -401,7 +396,7 @@ class _ProfileState extends State<Profile> {
 
   setPostOrientation(String orientation) {
     setState(() {
-      this.postOrientation = orientation;
+      postOrientation = orientation;
     });
   }
 
@@ -438,7 +433,7 @@ class _ProfileState extends State<Profile> {
       body: ListView(
         children: [
           buildProfileHeader(),
-          Divider(),
+          const Divider(),
           buildTogglePostOrientation(),
           //Divider(height: 0),
           buildProfilePost(),

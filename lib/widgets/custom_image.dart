@@ -6,7 +6,7 @@ Widget cachedNetworkImage(mediaUrl) {
   return CachedNetworkImage(
     imageUrl: mediaUrl,
     fit: BoxFit.cover,
-    placeholder: (context, url) => Padding(
+    placeholder: (context, url) => const Padding(
       child: CircularProgressIndicator(),
       padding: EdgeInsets.all(20.0),
     ),

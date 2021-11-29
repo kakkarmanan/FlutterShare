@@ -40,7 +40,6 @@ class _CommentsState extends State<Comments> {
 
   getCurrentUserDetails() async {
     logUser = User.fromDocument(loginUser);
-    print(logUser.id);
   }
 
   buildComments() {
@@ -66,7 +65,6 @@ class _CommentsState extends State<Comments> {
   }
 
   addComment() async {
-    print(logUser.id);
     comments.doc(postId).collection('comments').add({
       "username": logUser.username,
       "comment": commentController.text,
@@ -98,15 +96,16 @@ class _CommentsState extends State<Comments> {
           Expanded(
             child: buildComments(),
           ),
-          Divider(),
+          const Divider(),
           ListTile(
             title: TextFormField(
               controller: commentController,
-              decoration: InputDecoration(labelText: "Write a comment..."),
+              decoration:
+                  const InputDecoration(labelText: "Write a comment..."),
             ),
             trailing: OutlinedButton(
               onPressed: addComment,
-              child: Text("Post"),
+              child: const Text("Post"),
             ),
           )
         ],
@@ -150,7 +149,7 @@ class Comment extends StatelessWidget {
           ),
           subtitle: Text(timeago.format(timestamp!.toDate())),
         ),
-        Divider(),
+        const Divider(),
       ],
     );
   }

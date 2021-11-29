@@ -138,14 +138,6 @@ class _UploadState extends State<Upload>
   }
 
   uploadImage(File? file) async {
-    // UploadTask uploadTask =
-    //     postsRef.child("post_${file!.path}.jpg").putFile(file);
-    // var storageSnap = uploadTask.whenComplete;
-    // String downloadUrl = await FirebaseStorage.instance
-    //     .ref("post_${file.path}.jpg")
-    //     .getDownloadURL();
-    // print("Download Link:");
-    // print(downloadUrl);
     var ref = FirebaseStorage.instance.ref().child('posts/${file!.path}');
     await ref.putFile(file).whenComplete(() async {
       await ref.getDownloadURL().then((value) {
@@ -158,7 +150,6 @@ class _UploadState extends State<Upload>
 
   createPostInFirestore({String? location, String? description}) {
     User currentLoggedInUser = User.fromDocument(widget.loggedInUser);
-    print(currentLoggedInUser.id);
     posts.doc(currentLoggedInUser.id).collection("userPosts").doc(postId).set({
       "postId": postId,
       "ownerId": currentLoggedInUser.id,
@@ -215,23 +206,11 @@ class _UploadState extends State<Upload>
   }
 
   getUserLocation() async {
-    print("location function");
     Position? position = await _determinePosition();
-    // Position? position = await Geolocator.getCurrentPosition(
-    //   forceAndroidLocationManager: true,
-    //   desiredAccuracy: LocationAccuracy.low,
-    // );
-    // print(position);
-    // if (position == null) {
-    //   position = await Geolocator.getLastKnownPosition();
-    // }
-    // print("Logitude: ${position!.longitude}");
-    // print("Latitude: ${position.latitude}");
     List<Placemark> placemarks =
         await placemarkFromCoordinates(position.latitude, position.longitude);
     Placemark place = placemarks[0];
     String location = '${place.street}, ${place.locality}, ${place.country}';
-    print(location);
     locationController.text = location;
   }
 

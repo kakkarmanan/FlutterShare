@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_share/models/user.dart';
 import 'package:flutter_share/pages/comments.dart';
 import 'package:flutter_share/pages/home.dart';
+import 'package:flutter_share/pages/profile.dart';
 import 'package:flutter_share/widgets/custom_image.dart';
 import 'package:flutter_share/widgets/progress.dart';
 
@@ -85,6 +86,7 @@ class _PostState extends State<Post> {
   bool? isLiked;
   bool showHeart = false;
   bool isPostOwner = true;
+  String? userId;
 
   _PostState({
     this.loginUser,
@@ -148,8 +150,6 @@ class _PostState extends State<Post> {
   }
 
   handleLikePost() {
-    print("Like Function");
-    print(currentLoggedUser.id);
     bool _isLiked = (likes![currentLoggedUser.id] == true);
     setState(() {
       isLiked = _isLiked;
@@ -178,14 +178,8 @@ class _PostState extends State<Post> {
         likeCount = (likeCount + 1);
         _isLiked = true;
         likes![currentLoggedUser.id] = true;
-        //showHeart = true;
         isLiked = _isLiked;
       });
-      // Timer(Duration(milliseconds: 500), () {
-      //   setState(() {
-      //     showHeart = false;
-      //   });
-      // });
     }
   }
 
@@ -219,39 +213,15 @@ class _PostState extends State<Post> {
   }
 
   void handleDeletePost(BuildContext parentContext) async {
-    // showModalBottomSheet(
-    //     context: context,
-    //     builder: (BuildContext bc) {
-    //       return SafeArea(
-    //         child: Container(
-    //           child: new Wrap(
-    //             children: <Widget>[
-    //               new ListTile(
-    //                   leading: new Icon(Icons.photo_library),
-    //                   title: new Text('Camera'),
-    //                   onTap: () {
-    //                   }),
-    //               new ListTile(
-    //                 leading: new Icon(Icons.photo_camera),
-    //                 title: new Text('Photo Gallery'),
-    //                 onTap: () {
-    //                 },
-    //               ),
-    //             ],
-    //           ),
-    //         ),
-    //       );
-    //     });
-
     return showDialog(
         context: parentContext,
         builder: (context) {
           return SimpleDialog(
-            title: Text("Remove This Post?"),
+            title: const Text("Remove This Post?"),
             children: [
               SimpleDialogOption(
                 onPressed: () => {Navigator.pop(context), deletePost()},
-                child: Text(
+                child: const Text(
                   "Delete",
                   style: TextStyle(
                     color: Colors.red,
@@ -260,7 +230,7 @@ class _PostState extends State<Post> {
               ),
               SimpleDialogOption(
                 onPressed: () => Navigator.pop(context),
-                child: Text("Cancel"),
+                child: const Text("Cancel"),
               ),
             ],
           );
@@ -282,10 +252,20 @@ class _PostState extends State<Post> {
             backgroundColor: Colors.grey,
           ),
           title: GestureDetector(
-            onTap: () => print("Showing Profile"),
+            onTap: () => {
+              userId = user.id,
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Profile(
+                            user: loginUser,
+                            currentinUser: loginUser,
+                            userId: userId,
+                          )))
+            },
             child: Text(
               user.username,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.black,
                 fontWeight: FontWeight.bold,
               ),
@@ -297,7 +277,7 @@ class _PostState extends State<Post> {
                   onPressed: () => handleDeletePost(context),
                   icon: Icon(Icons.more_vert),
                 )
-              : Text(""),
+              : const Text(""),
         );
       },
     );
@@ -323,13 +303,12 @@ class _PostState extends State<Post> {
   }
 
   buildPostFooter() {
-    print(currentLoggedUser.id);
     return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(top: 40.0, left: 20.0),
             ),
             GestureDetector(
@@ -340,7 +319,7 @@ class _PostState extends State<Post> {
                 color: Colors.red,
               ),
             ),
-            Padding(
+            const Padding(
               padding: EdgeInsets.only(top: 40.0, right: 20.0),
             ),
             GestureDetector(
@@ -353,7 +332,7 @@ class _PostState extends State<Post> {
                             postOwnerId: ownerId,
                             postMediaUrl: mediaUrl,
                           ))),
-              child: Icon(
+              child: const Icon(
                 Icons.chat,
                 size: 28.0,
                 color: Colors.blue,
@@ -364,10 +343,10 @@ class _PostState extends State<Post> {
         Row(
           children: [
             Container(
-              margin: EdgeInsets.only(left: 20.0),
+              margin: const EdgeInsets.only(left: 20.0),
               child: Text(
-                "${likeCount} likes",
-                style: TextStyle(
+                "$likeCount likes",
+                style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
@@ -379,17 +358,17 @@ class _PostState extends State<Post> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Container(
-              margin: EdgeInsets.only(left: 20.0),
+              margin: const EdgeInsets.only(left: 20.0),
               child: Text(
-                "${username}: ",
-                style: TextStyle(
+                "$username: ",
+                style: const TextStyle(
                   color: Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
             Expanded(
-              child: Text("${description}"),
+              child: Text(description),
             ),
           ],
         ),

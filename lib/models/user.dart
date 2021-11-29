@@ -19,8 +19,7 @@ class User {
   });
 
   factory User.fromDocument(DocumentSnapshot? doc) {
-    print("From user model");
-    print(doc!.data());
+    var data = doc!.data();
     return User(
       id: doc['id'],
       username: doc['username'],

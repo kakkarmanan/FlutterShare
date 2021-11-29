@@ -63,19 +63,6 @@ class _TimelineState extends State<Timeline> {
     });
   }
 
-  // getUsers() async {
-  //   final QuerySnapshot snapshots = await users.get();
-  //   setState(() {
-  //     userData = snapshots.docs;
-  //   });
-  // }
-  // createUser() {
-  //   users.add({
-  //     "username": "Jeff",
-  //     "isAdmin": false,
-  //     "postsCount": 0,
-  //   });
-  // }
   buildTimeline() {
     if (myPosts == null) {
       return circularProgress();
@@ -123,7 +110,7 @@ class _TimelineState extends State<Timeline> {
                       color: Theme.of(context).colorScheme.primary,
                       size: 30.0,
                     ),
-                    SizedBox(
+                    const SizedBox(
                       width: 8.0,
                     ),
                     Text(

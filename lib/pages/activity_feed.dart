@@ -34,8 +34,6 @@ class _ActivityFeedState extends State<ActivityFeed> {
   }
 
   getActivityFeed() async {
-    print("from getActivityFeed");
-    print(logUser.id);
     QuerySnapshot snapshot = await feed
         .doc(logUser.id)
         .collection('feedItems')
@@ -44,12 +42,8 @@ class _ActivityFeedState extends State<ActivityFeed> {
         .get();
     List<ActivityFeedItem> feedItems = [];
     snapshot.docs.forEach((doc) {
-      print("Data of feedItems");
-      print(doc.data());
       feedItems.add(ActivityFeedItem.fromDocument(doc, loginUser));
     });
-    print("list of feed iterms");
-    print(feedItems);
     return feedItems;
   }
 
@@ -63,12 +57,10 @@ class _ActivityFeedState extends State<ActivityFeed> {
             future: getActivityFeed(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                print("Snapshot has data");
                 return ListView(
                   children: snapshot.data,
                 );
               }
-              print("No data in snapshot");
               return circularProgress();
             }),
       ),
@@ -104,8 +96,7 @@ class ActivityFeedItem extends StatelessWidget {
 
   factory ActivityFeedItem.fromDocument(
       QueryDocumentSnapshot? doc, DocumentSnapshot? loginUser) {
-    print("from Activity Feed Item class");
-    print(doc!.data());
+    final data = doc!.data();
     return ActivityFeedItem(
       loginUser: loginUser,
       username: doc['username'],
@@ -120,8 +111,6 @@ class ActivityFeedItem extends StatelessWidget {
   }
 
   configureMediaPreview(BuildContext context) {
-    print("configureMediaPreview");
-    print(type);
     if (type == 'like' || type == 'comment') {
       mediaPreview = GestureDetector(
         onTap: () => Navigator.push(
@@ -132,6 +121,7 @@ class ActivityFeedItem extends StatelessWidget {
                       userId: userId,
                       postId: postId,
                     ))),
+        // ignore: sized_box_for_whitespace
         child: Container(
           height: 50.0,
           width: 50.0,
@@ -148,7 +138,7 @@ class ActivityFeedItem extends StatelessWidget {
         ),
       );
     } else {
-      mediaPreview = Text("");
+      mediaPreview = const Text("");
     }
 
     if (type == 'like') {
@@ -166,7 +156,7 @@ class ActivityFeedItem extends StatelessWidget {
   Widget build(BuildContext context) {
     configureMediaPreview(context);
     return Padding(
-      padding: EdgeInsets.only(bottom: 2.0),
+      padding: const EdgeInsets.only(bottom: 2.0),
       child: Container(
         color: Colors.white54,
         child: ListTile(
@@ -182,14 +172,14 @@ class ActivityFeedItem extends StatelessWidget {
             child: RichText(
               overflow: TextOverflow.ellipsis,
               text: TextSpan(
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 14.0,
                   color: Colors.black,
                 ),
                 children: [
                   TextSpan(
                     text: username,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontWeight: FontWeight.bold,
                     ),
                   ),

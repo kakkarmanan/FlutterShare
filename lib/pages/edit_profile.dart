@@ -29,11 +29,9 @@ class _EditProfileState extends State<EditProfile> {
   }
 
   getUser() {
-    print("Init funtion");
     User loggedInUser = User.fromDocument(widget.user);
     displayNameController.text = loggedInUser.displayName;
     bioController.text = loggedInUser.bio;
-    print(displayNameController.text);
   }
 
   buildDisplayNameField() {
@@ -158,7 +156,7 @@ class _EditProfileState extends State<EditProfile> {
                       ),
                       ElevatedButton(
                         onPressed: () => updateProfileData(),
-                        child: Text(
+                        child: const Text(
                           "Update Profile",
                           style: TextStyle(
                             fontSize: 15.0,
@@ -167,14 +165,15 @@ class _EditProfileState extends State<EditProfile> {
                         ),
                       ),
                       Padding(
-                        padding: EdgeInsets.all(16.0),
+                        padding: const EdgeInsets.all(16.0),
                         child: TextButton.icon(
-                          onPressed: () => print("logout"),
-                          icon: Icon(
+                          onPressed: () => Navigator.push(context,
+                              MaterialPageRoute(builder: (context) => Home())),
+                          icon: const Icon(
                             Icons.logout,
                             color: Colors.red,
                           ),
-                          label: Text(
+                          label: const Text(
                             "Logout",
                             style: TextStyle(
                               color: Colors.red,

@@ -45,19 +45,26 @@ class _HomeState extends State<Home> {
   DocumentSnapshot? document;
   String? userId;
 
+  @override
   void initState() {
     super.initState();
     pageController = PageController();
     googleSignin.onCurrentUserChanged.listen((account) {
       handleSignIn(account);
     }, onError: (err) {
-      print("Error signing in: $err");
+      AlertDialog(
+        title: const Text("Error"),
+        content: Text(err),
+      );
     });
     googleSignin
         .signInSilently(suppressErrors: false)
         .then((account) => {handleSignIn(account)})
         .catchError((err) {
-      print("Error signing in: $err");
+      AlertDialog(
+        title: const Text("Error"),
+        content: Text(err),
+      );
     });
   }
 
@@ -65,9 +72,9 @@ class _HomeState extends State<Home> {
     pageController?.dispose();
   }
 
-  handleSignIn(GoogleSignInAccount? account) {
+  handleSignIn(GoogleSignInAccount? account) async {
     if (account != null) {
-      createUserInFirestore();
+      await createUserInFirestore();
       setState(() {
         isAuth = true;
       });
@@ -97,8 +104,6 @@ class _HomeState extends State<Home> {
     doc = await users.doc(user?.id).get();
     document = doc;
     User currentUser = User.fromDocument(doc);
-    print(currentUser);
-    print(currentUser.username);
     setState(() {
       loggedInUser = currentUser;
     });
@@ -118,11 +123,11 @@ class _HomeState extends State<Home> {
     });
   }
 
-  onTap(int pageIndex) {
-    pageController?.animateToPage(
+  onTap(int pageIndex) async {
+    await pageController?.animateToPage(
       pageIndex,
       duration: Duration(milliseconds: 500),
-      curve: Curves.easeInOut,
+      curve: Curves.ease,
     );
   }
 
@@ -150,7 +155,7 @@ class _HomeState extends State<Home> {
             userId: loggedInUser.id,
           ),
         ],
-        controller: pageController,
+        controller: pageController!,
         onPageChanged: onPageChanged,
         physics: NeverScrollableScrollPhysics(),
       ),

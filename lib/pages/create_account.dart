@@ -9,7 +9,6 @@ class CreateAccount extends StatefulWidget {
 }
 
 class _CreateAccountState extends State<CreateAccount> {
-  @override
   String? username = "";
   final _formKey = GlobalKey<FormState>();
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -20,8 +19,9 @@ class _CreateAccountState extends State<CreateAccount> {
       if (form.validate()) {
         form.save();
         SnackBar snackbar = SnackBar(content: Text("Welcome: $username !"));
+        // ignore: deprecated_member_use
         _scaffoldKey.currentState?.showSnackBar(snackbar);
-        Timer(Duration(seconds: 2));
+        timer(const Duration(seconds: 2));
         Navigator.pop(context, username);
       }
     }
@@ -38,13 +38,13 @@ class _CreateAccountState extends State<CreateAccount> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
+              const Text(
                 "Create a username",
                 style: TextStyle(
                   fontSize: 25.0,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 10.0,
               ),
               Padding(
@@ -54,9 +54,10 @@ class _CreateAccountState extends State<CreateAccount> {
                     key: _formKey,
                     child: TextFormField(
                       onSaved: (val) => {username = val},
+                      // ignore: deprecated_member_use
                       autovalidate: true,
                       validator: (val) {
-                        if (val!.trim().length < 3 || val.isEmpty) {
+                        if (val!.isEmpty || val.trim().length < 3) {
                           return "Username too short";
                         } else if (val!.trim().length > 12) {
                           return "Username too long";
@@ -64,7 +65,7 @@ class _CreateAccountState extends State<CreateAccount> {
                           return null;
                         }
                       },
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: "Username",
                         labelStyle: TextStyle(fontSize: 15.0),
@@ -83,7 +84,7 @@ class _CreateAccountState extends State<CreateAccount> {
                     borderRadius: BorderRadius.circular(7.0),
                   ),
                   alignment: Alignment.center,
-                  child: Center(
+                  child: const Center(
                     child: Text(
                       "Submit",
                       style: TextStyle(
@@ -101,4 +102,4 @@ class _CreateAccountState extends State<CreateAccount> {
   }
 }
 
-void Timer(Duration duration) {}
+void timer(Duration duration) {}
